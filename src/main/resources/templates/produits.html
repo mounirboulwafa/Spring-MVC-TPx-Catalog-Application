@@ -9,7 +9,16 @@
 
 <body>
 <div class="container">
-    <h3> List des Produits</h3>
+    <h3> List des Produits </h3>
+
+    <form th:action="@{index}" method="get">
+        <label>Mot clé</label>
+        <input type="text" name="mc"/>
+        <button class="btn btn-primary">Chercher</button>
+    </form>
+</div>
+
+<div class="container">
     <table class="table">
         <thead>
         <tr>
@@ -28,6 +37,18 @@
         </tr>
         </tbody>
     </table>
+
+</div>
+<div class="container">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item " th:classappend="${pageCourante} == ${status.index} ? 'active' : ''"
+                th:each="pa,status:${pages}">
+                <a class="page-link" th:href="@{index(page=${status.index}, size=${size})}"
+                   th:text="${status.index}"></a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 

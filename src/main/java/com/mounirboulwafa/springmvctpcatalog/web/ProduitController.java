@@ -20,12 +20,19 @@ public class ProduitController {
     @RequestMapping(value = "/index")
     public String index(Model model,
                         @RequestParam(name = "page", defaultValue = "0") int p,
-                        @RequestParam(name = "size", defaultValue = "5") int s) {
+                        @RequestParam(name = "size", defaultValue = "7") int s) {
+
 //        List<Produit> produits = produitRepository.findAll();     //Return all products in one page
 //        model.addAttribute("listProduits", produits);
 
         Page<Produit> pageProduits = produitRepository.findAll(PageRequest.of(p, s));  //Results in Pages
         model.addAttribute("listProduits", pageProduits.getContent());  //getContent() = return result products
+
+        int[] pages = new int[pageProduits.getTotalPages()];
+        model.addAttribute("pages", pages);
+        model.addAttribute("size", s);
+        model.addAttribute("pageCourante", p);
+
 
         return "produits";
     }

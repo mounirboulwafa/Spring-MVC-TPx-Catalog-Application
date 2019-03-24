@@ -13,7 +13,7 @@
 
     <form th:action="@{index}" method="get">
         <label>Mot clé</label>
-        <input type="text" name="mc"/>
+        <input type="text" name="motCle" th:value="${motCle}"/>
         <button class="btn btn-primary">Chercher</button>
     </form>
 </div>
@@ -34,6 +34,7 @@
             <td th:text="${p.designation}"></td>
             <td th:text="${p.prix}"></td>
             <td th:text="${p.quantite}"></td>
+            <td><a th:href="@{delete(id=${p.id}, page=${pageCourante}, size=${size}, motCle=${motCle})}">Delete</a></td>
         </tr>
         </tbody>
     </table>
@@ -44,7 +45,7 @@
         <ul class="pagination">
             <li class="page-item " th:classappend="${pageCourante} == ${status.index} ? 'active' : ''"
                 th:each="pa,status:${pages}">
-                <a class="page-link" th:href="@{index(page=${status.index}, size=${size})}"
+                <a class="page-link" th:href="@{index(page=${status.index}, size=${size}, motCle=${motCle})}"
                    th:text="${status.index}"></a>
             </li>
         </ul>

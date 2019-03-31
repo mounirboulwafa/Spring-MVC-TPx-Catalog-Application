@@ -72,7 +72,7 @@ public class ProduitController {
         return "Confirmation";
     }
 
-    @RequestMapping()
+    @RequestMapping(value = "/")        //fix error msg : Refused to apply style
     public String home() {
         return "redirect:/index";
     }

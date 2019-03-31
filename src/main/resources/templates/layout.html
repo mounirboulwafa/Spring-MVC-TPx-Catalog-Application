@@ -19,6 +19,9 @@
                     <a class="nav-link" th:href="@{/index}">Chercher</a></li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/form}">Produits</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login?logout}"
+                       th:inline="text">[[${#httpServletRequest.remoteUser}]]</a></li>
             </ul>
         </div>
     </nav>

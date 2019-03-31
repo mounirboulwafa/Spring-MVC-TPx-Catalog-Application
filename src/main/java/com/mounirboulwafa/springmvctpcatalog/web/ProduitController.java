@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class ProduitController {
@@ -71,5 +70,15 @@ public class ProduitController {
         produitRepository.save(produit);
 
         return "Confirmation";
+    }
+
+    @RequestMapping()
+    public String home() {
+        return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/403")
+    public String accessDenied() {
+        return "403";
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProduitController {
@@ -46,6 +46,14 @@ public class ProduitController {
         produitRepository.deleteById(id);
 
         return "redirect:/index?page=" + page + "&size=" + size + "&motCle=" + motCle;       //Delete product then redirect to index.html
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(Model model, Long id) {
+        Produit p = produitRepository.getOne(id);
+        model.addAttribute("produit", p);
+
+        return "EditProduit";
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)

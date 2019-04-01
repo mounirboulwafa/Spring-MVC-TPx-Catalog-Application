@@ -1,0 +1,158 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ pom.xml	(revision 55b3a0935870355d8529df105c304152f13bd9a9)
+@@ -31,10 +31,7 @@
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-web</artifactId>
+         </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-security</artifactId>
+-        </dependency>
++
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-devtools</artifactId>
+Index: src/main/java/com/mounirboulwafa/springmvctpcatalog/security/SecurityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/mounirboulwafa/springmvctpcatalog/security/SecurityConfig.java	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ src/main/java/com/mounirboulwafa/springmvctpcatalog/security/SecurityConfig.java	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
+@@ -1,25 +0,0 @@
+-package com.mounirboulwafa.springmvctpcatalog.security;
+-
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+-
+-@Configuration
+-@EnableWebSecurity
+-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+-    @Override
+-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+-        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN", "USER");
+-        auth.inMemoryAuthentication().withUser("user").password("{noop}user").roles("USER");
+-    }
+-
+-    @Override
+-    protected void configure(HttpSecurity http) throws Exception {
+-        http.formLogin();
+-        http.authorizeRequests().antMatchers("/index").hasRole("USER");
+-        http.authorizeRequests().antMatchers("/form", "/save", "/edit", "/delete").hasRole("ADMIN");
+-        http.exceptionHandling().accessDeniedPage("/403");
+-    }
+-}
+Index: src/main/java/com/mounirboulwafa/springmvctpcatalog/web/ProduitController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/mounirboulwafa/springmvctpcatalog/web/ProduitController.java	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ src/main/java/com/mounirboulwafa/springmvctpcatalog/web/ProduitController.java	(revision 55b3a0935870355d8529df105c304152f13bd9a9)
+@@ -13,6 +13,7 @@
+ import org.springframework.web.bind.annotation.RequestParam;
+ 
+ import javax.validation.Valid;
++import java.util.Optional;
+ 
+ @Controller
+ public class ProduitController {
+@@ -71,14 +72,4 @@
+ 
+         return "Confirmation";
+     }
+-
+-    @RequestMapping()
+-    public String home() {
+-        return "redirect:/index";
+-    }
+-
+-    @RequestMapping(value = "/403")
+-    public String accessDenied() {
+-        return "403";
+-    }
+ }
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- src/main/resources/application.properties	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ src/main/resources/application.properties	(revision 55b3a0935870355d8529df105c304152f13bd9a9)
+@@ -32,11 +32,4 @@
+ # Naming strategy
+ # spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
+ # Allows Hibernate to generate SQL optimized for a particular DBMS
+-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+-#
+-# ===============================
+-# = Configuring Spring Boot Security
+-# ===============================
+-# Username and password
+-spring.security.user.name=root
+-spring.security.user.password=root
+\ No newline at end of file
++spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+\ No newline at end of file
+Index: src/main/resources/templates/403.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/403.html	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ src/main/resources/templates/403.html	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
+@@ -1,28 +0,0 @@
+-<!DOCTYPE html>
+-<html xmlns:th="http://thymleaf.org"
+-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+-      layout:decorate="~{layout}">
+-
+-<head>
+-    <meta charset="UTF-8"/>
+-    <title>403</title>
+-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}"/>
+-</head>
+-
+-<body>
+-<div class="page-wrap d-flex flex-row align-items-center" layout:fragment="content">
+-    <div class="spacer container">
+-        <div class="row justify-content-center">
+-            <div class="col-md-12 text-center">
+-                <span class="display-1 d-block">404</span>
+-                <h3>Forbidden</h3>
+-                <div class="mb-4 lead">Oops, an error has occurred. Forbidden!</div>
+-                <a th:href="@{/index}" class="btn btn-link">Retour to Home</a>
+-            </div>
+-        </div>
+-    </div>
+-</div>
+-
+-</body>
+-
+-</html>
+\ No newline at end of file
+Index: src/main/resources/templates/layout.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/layout.html	(revision 675cab0411cccd488b0e1755acb059c5b9d8f5ef)
++++ src/main/resources/templates/layout.html	(revision 55b3a0935870355d8529df105c304152f13bd9a9)
+@@ -19,9 +19,6 @@
+                     <a class="nav-link" th:href="@{/index}">Chercher</a></li>
+                 <li class="nav-item">
+                     <a class="nav-link" th:href="@{/form}">Produits</a></li>
+-                <li class="nav-item">
+-                    <a class="nav-link" th:href="@{/login?logout}"
+-                       th:inline="text">[[${#httpServletRequest.remoteUser}]]</a></li>
+             </ul>
+         </div>
+     </nav>
